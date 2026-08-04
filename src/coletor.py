@@ -1,43 +1,27 @@
 import os
 import json
 import asyncio
-import requests
 from pathlib import Path
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.tl.types import MessageMediaPhoto
 
-# Credenciais do app Telegram (my.telegram.org) — usadas independente de login como bot ou usuário
+# Pegando chaves do cofre
 API_ID = int(os.environ["TELEGRAM_API_ID"])
 API_HASH = os.environ["TELEGRAM_API_HASH"]
+STRING_SESSION = os.environ["TELEGRAM_STRING_SESSION"]
 
-# Token do bot que já está no chat com o conteúdo pronto (@info_arte_trabalhista_github_bot)
-BOT_TOKEN_COLETA = os.environ["TELEGRAM_COLETA_BOT_TOKEN"]
-
-# ID do chat/canal onde esse bot recebe a arte + legenda
+# ID do chat de onde vem a arte + legenda (obrigatório: sem fallback, para não
+# coletar do canal errado por engano)
 CHAT_ID_CONTEUDO = int(os.environ["TELEGRAM_CONTENT_CHAT_ID"])
 
-# Bot + chat separados, só para avisos (pode ser o mesmo bot de avisos do publicador.py)
-BOT_TOKEN_AVISOS = os.environ.get("TELEGRAM_BOT_TOKEN")
+# Chat para avisos (reaproveita o secret já existente no workflow)
 CHAT_ID_AVISOS = os.environ.get("TELEGRAM_CHAT_ID")
 
 DB_DIR = Path("database")
 DB_DIR.mkdir(exist_ok=True)
 DATA_FILE = DB_DIR / "posts_do_dia.json"
 ESTADO_FILE = DB_DIR / "estado_coletor.json"
-
-
-def avisar_telegram(texto):
-    if not (BOT_TOKEN_AVISOS and CHAT_ID_AVISOS):
-        return
-    try:
-        requests.post(
-            f"https://api.telegram.org/bot{BOT_TOKEN_AVISOS}/sendMessage",
-            json={"chat_id": CHAT_ID_AVISOS, "text": texto},
-            timeout=10
-        )
-    except Exception as e:
-        print(f"Erro ao avisar Telegram: {e}")
 
 
 def carregar_ultimo_id():
@@ -55,10 +39,12 @@ def salvar_ultimo_id(msg_id):
 async def coletar_posts():
     print(f"Iniciando coleta no Telegram (Chat Alvo: {CHAT_ID_CONTEUDO})...")
 
-    client = TelegramClient(StringSession(), API_ID, API_HASH)
-    await client.start(bot_token=BOT_TOKEN_COLETA)
+    async with TelegramClient(StringSession(STRING_SESSION), API_ID, API_HASH) as client:
 
-    try:
+        print("Atualizando a lista de diálogos para o Telethon reconhecer o ID...")
+        # A PEÇA QUE FALTAVA: Isso cura a "amnésia" da StringSession
+        await client.get_dialogs()
+
         print("Buscando o chat alvo...")
         chat = await client.get_entity(CHAT_ID_CONTEUDO)
 
@@ -103,11 +89,16 @@ async def coletar_posts():
 
             if not legenda:
                 print(f"Foto (msg {msg.id}) sem legenda identificável — pulando.")
-                avisar_telegram(
-                    f"⚠️ Arte encontrada no canal (msg {msg.id}) foi ignorada: "
-                    f"não encontrei legenda associada a ela. Adicione a legenda "
-                    f"manualmente se quiser publicá-la."
-                )
+                if CHAT_ID_AVISOS:
+                    try:
+                        await client.send_message(
+                            int(CHAT_ID_AVISOS),
+                            f"⚠️ Arte encontrada no canal (msg {msg.id}) foi ignorada: "
+                            f"não encontrei legenda associada a ela. Adicione a legenda "
+                            f"manualmente se quiser publicá-la."
+                        )
+                    except Exception as e:
+                        print(f"Erro ao avisar Telegram sobre legenda ausente: {e}")
                 continue
 
             pares.append({"msg_obj": msg, "legenda": legenda})
@@ -133,8 +124,6 @@ async def coletar_posts():
         salvar_ultimo_id(maior_id_visto)
 
         print(f"Coleta finalizada. {len(fila_posts)} posts encontrados.")
-    finally:
-        await client.disconnect()
 
 if __name__ == "__main__":
     asyncio.run(coletar_posts())
