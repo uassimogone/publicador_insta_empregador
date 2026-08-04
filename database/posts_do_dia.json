@@ -1,3 +1,22 @@
 {
-  "posts": []
+  "posts": [
+    {
+      "id": 1,
+      "imagem": "slide_01.png",
+      "legenda": "A escala 6x1, amplamente utilizada, está sob escrutínio judicial. Decisões recentes questionam sua conformidade com o descanso semanal remunerado e limites de jornada, abrindo portas para passivos trabalhistas vultosos. A falta de atenção a essa discussão pode resultar em surpresas desagradáveis para o seu caixa.\n\nO desdobramento prático é a possibilidade de ações judiciais que exigem o pagamento de horas extras e reflexos, impactando diretamente a saúde financeira da sua operação. É crucial revisar as escalas atuais e buscar modelos que garantam o cumprimento irrestri mais da legislação.\n\nPara blindar sua empresa, é essencial auditar as escalas de trabalho, implementar um controle rigoroso de jornada e, se necessário, reestruturar os modelos para mitigar riscos. A prevenção é o caminho mais seguro para evitar perdas financeiras significativas.\n\nFonte: Link da Notícia\n#AdvocaciaPatronal #DireitoDoTrabalho #GestaoDeRisco #DireitoEmpresarial #Escala6x1 #JornadaDeTrabalho",
+      "publicado": false
+    },
+    {
+      "id": 2,
+      "imagem": "slide_02.png",
+      "legenda": "O uso de Inteligência Artificial no RH traz eficiência, mas também riscos ocultos. Vieses discriminatórios em algoritmos e falhas na conformidade com a LGPD podem gerar multas pesadas e processos judiciais, impactando diretamente o resultado da sua empresa.\n\nA falta de auditoria e calibração dos sistemas de IA pode perpetuar discriminações, resultando em práticas ilegais. Além disso, a proteção de dados pessoais é um ponto crítico, com sanções administrativas e judiciais em caso de descumprimento.\n\nA solução passa por uma governança rigorosa na implementação de IA, com auditorias constantes para identificar e mitigar vieses, além de garantir a total conformidade com a LGPD. A documentação detalhada de cada etapa é fundamental para a sua defesa.\n\nFonte: [IA em recrutamento: riscos de discriminação e LGPD alertam MPT. Migalhas.](https://www.migalhas.com.br/quentes/469000/ia-em-recrutamento-riscos-de-discriminacao-e-lgpd-alertam-mpt)\n#AdvocaciaPatronal #DireitoDoTrabalho #GestaoDeRisco #DireitoEmpresarial #InteligenciaArtificial #LGPD",
+      "publicado": false
+    },
+    {
+      "id": 3,
+      "imagem": "slide_03.png",
+      "legenda": "A fiscalização trabalhista digital está cada vez mais sofisticada. Erros ou omissões no eSocial e em outras plataformas podem ser rapidamente identificados, gerando multas expressivas e passivos que comprometem o fluxo de caixa da sua empresa.\n\nA precisão e a atualização das informações prestadas nesses sistemas são cruciais. Inconsistências podem desencadear um efeito cascata de problemas, culminando em autuações fiscais e custos inesperados que afetam sua rentabilidade.\n\nPara se proteger, implemente um processo robusto de gestão e conferência dos dados enviados ao eSocial. Uma auditoria interna periódica e o treinamento da equipe responsável garantem a conformidade e evitam surpresas financeiras.\n\nFonte: [eSocial e fiscalização digital: erros custam caro ao seu caixa. Migalhas.](https://www.migalhas.com.br/quentes/471000/esocial-e-fiscalizacao-digital-novos-desafios-para-empresas-em-2026)\n#AdvocaciaPatronal #DireitoDoTrabalho #GestaoDeRisco #DireitoEmpresarial #eSocial #FiscalizacaoDigital",
+      "publicado": false
+    }
+  ]
 }
