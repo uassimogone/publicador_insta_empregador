@@ -1,3 +1,22 @@
 {
-  "posts": []
+  "posts": [
+    {
+      "id": 1,
+      "imagem": "slide_01.png",
+      "legenda": "O TST está consolidando um entendimento rigoroso sobre o vínculo empregatício em plataformas digitais. A mera formalização como \"prestador de serviços\" já não é escudo suficiente. Decisões recentes focam na realidade fática da relação, ignorando a roupagem contratual e elevando exponencialmente o risco de passivos trabalhistas para empresas que operam com esse modelo.\n\nA subordinação algorítmica, habitualidade e onerosidade, mesmo que disfarçadas, são critérios que o Tribunal utiliza para reverter a natureza da contratação. Isso significa que sua empresa pode ser surpreendida com condenações retroativas, exigindo o pagamento de todos os direitos trabalhistas, multas e encargos sociais, impactando diretamente a sustentabilidade do seu negócio.\n\nÉ imperativo revisar urgentemente seus contratos e, principalmente, suas práticas operacionais. Estruture uma governança jurídica que mapeie e mitigue esses riscos, garantindo que a autonomia e a ausência de subordinação sejam efetivas e comprováveis. Blindar-se agora é evitar um custo futuro que pode inviabilizar sua operação.\n\nNão espere a intimação. Agende uma auditoria jurídica preventiva.\n\nFonte: Conjur - TST consolida critérios para vínculo em apps, 02/08/2026\n\n#AdvocaciaPatronal #DireitoDoTrabalho #GestaoDeRisco #DireitoEmpresarial #PlataformasDigitais #VínculoEmpregatício",
+      "publicado": false
+    },
+    {
+      "id": 2,
+      "imagem": "slide_02.png",
+      "legenda": "O TST tem reforçado o direito à desconexão digital, condenando empresas por cobranças excessivas de demandas e comunicações fora do horário de expediente. A constante disponibilidade do empregado, via e-mail ou WhatsApp, mesmo sem trabalho efetivo, pode configurar sobrejornada ou até dano existencial, gerando passivos inesperados.\n\nEssa tendência implica que a cultura de \"sempre conectado\" da sua empresa pode estar gerando um passivo oculto significativo. Condenações por horas extras, adicionais noturnos e indenizações por danos morais são cada vez mais comuns, impactando diretamente o planejamento financeiro e a reputação do seu negócio. A prova da desconexão é crucial.\n\nÉ fundamental estabelecer políticas claras de comunicação e limites para o uso de ferramentas digitais fora do horário de trabalho. Invista em treinamentos, revise regulamentos internos e crie um ambiente onde a desconexão seja respeitada. Uma blindagem jurídica proativa garante a conformidade e protege sua empresa de surpresas judiciais.\n\nProteja seu caixa e sua equipe. Implemente uma política de desconexão eficaz.\n\nFonte: Migalhas - TST condena empresa por excesso de comunicação pós-expediente, 01/08/2026\n\n#AdvocaciaPatronal #DireitoDoTrabalho #GestaoDeRisco #DireitoEmpresarial #DesconexãoDigital #HorasExtras",
+      "publicado": false
+    },
+    {
+      "id": 3,
+      "imagem": "slide_03.png",
+      "legenda": "O TST está flexibilizando a prova de nexo causal entre o trabalho e doenças psicossociais como depressão e ansiedade. A empresa pode ser responsabilizada mesmo sem um evento traumático específico, bastando a comprovação de um ambiente laboral hostil ou de pressão excessiva que contribua para o adoecimento.\n\nEssa mudança de entendimento significa que a gestão da cultura organizacional e do bem-estar mental dos colaboradores se torna um ponto crítico de risco. Condenações por danos morais, pensões e estabilidade podem surgir de ambientes de trabalho considerados \"tóxicos\", impactando severamente o orçamento e a imagem da sua empresa.\n\nÉ urgente investir na promoção de um ambiente psicologicamente seguro. Implemente programas de saúde mental, canais de denúncia eficazes e uma gestão que priorize o respeito e a ética. A criação de um dossiê robusto de ações preventivas e o monitoramento constante do clima organizacional são essenciais para blindar sua empresa contra esses passivos emergentes.\n\nNão espere o passivo. Invista na saúde mental e jurídica da sua empresa.\n\nFonte: Conjur - TST facilita prova de nexo em doenças psicossociais, 01/08/2026\n\n#AdvocaciaPatronal #DireitoDoTrabalho #GestaoDeRisco #DireitoEmpresarial #SaudeMental #AmbienteDeTrabalho",
+      "publicado": false
+    }
+  ]
 }
