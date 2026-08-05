@@ -36,6 +36,17 @@ def salvar_ultimo_id(msg_id):
         json.dump({"ultimo_message_id": msg_id}, f, ensure_ascii=False, indent=2)
 
 
+def contar_pendentes():
+    if not DATA_FILE.exists():
+        return 0
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            dados = json.load(f)
+        return sum(1 for p in dados.get("posts", []) if not p.get("publicado"))
+    except Exception:
+        return 0
+
+
 async def coletar_posts():
     print(f"Iniciando coleta no Telegram (Chat Alvo: {CHAT_ID_CONTEUDO})...")
 
@@ -117,6 +128,25 @@ async def coletar_posts():
                 "legenda": par["legenda"],
                 "publicado": False
             })
+
+        if not fila_posts:
+            # Nada novo: preserva a fila atual. Sobrescrever aqui descartaria
+            # posts ja coletados e ainda nao publicados.
+            salvar_ultimo_id(maior_id_visto)
+            print("Nenhum conteudo novo. Fila atual preservada.")
+            return
+
+        pendentes = contar_pendentes()
+        if pendentes and CHAT_ID_AVISOS:
+            try:
+                await client.send_message(
+                    int(CHAT_ID_AVISOS),
+                    f"⚠️ A fila foi substituída por {len(fila_posts)} post(s) novo(s), "
+                    f"mas {pendentes} post(s) do lote anterior ainda não tinham sido "
+                    f"publicados e foram descartados."
+                )
+            except Exception as e:
+                print(f"Erro ao avisar Telegram sobre fila substituída: {e}")
 
         with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump({"posts": fila_posts}, f, ensure_ascii=False, indent=2)
