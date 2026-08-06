@@ -1,4 +1,4 @@
-name: 2 - Publicador (alvo: 08h, 12h, 18h BRT)
+name: 2 - Publicador
 on:
   schedule:
     # Alvo 08:00 BRT. O agendador do GitHub atrasa 60-105 min, entao o cron

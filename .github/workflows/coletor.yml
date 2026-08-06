@@ -1,4 +1,4 @@
-name: 1 - Coletor (alvo: antes de cada publicacao)
+name: 1 - Coletor
 on:
   schedule:
     # O agendador do GitHub atrasa o coletor em 90-190 min, entao os horarios
