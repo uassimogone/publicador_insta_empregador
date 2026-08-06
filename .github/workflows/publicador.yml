@@ -1,12 +1,14 @@
-name: 2 - Publicador (08h, 12h, 18h BRT)
+name: 2 - Publicador (alvo: 08h, 12h, 18h BRT)
 on:
   schedule:
-    # 07:45 BRT = 10:45 UTC
-    - cron: '45 10 * * *'
-    # 11:45 BRT = 14:45 UTC
-    - cron: '45 14 * * *'
-    # 17:45 BRT = 20:45 UTC
-    - cron: '45 20 * * *'
+    # Alvo 08:00 BRT. O agendador do GitHub atrasa 60-105 min, entao o cron
+    # e antecipado para compensar. Minutos "impopulares" (:17, :23) sofrem
+    # menos fila do que :00 e :45.
+    - cron: '17 09 * * *'
+    # Alvo 12:00 BRT
+    - cron: '17 13 * * *'
+    # Alvo 18:00 BRT
+    - cron: '23 19 * * *'
   workflow_dispatch:
 jobs:
   run-publicador:

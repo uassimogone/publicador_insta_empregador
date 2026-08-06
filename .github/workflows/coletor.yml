@@ -1,8 +1,14 @@
-name: 1 - Coletor (07:15 BRT)
+name: 1 - Coletor (alvo: antes de cada publicacao)
 on:
   schedule:
-    # Dispara apenas uma vez por dia, às 05:50 BRT (08:50 UTC)
-    - cron: '50 08 * * *'
+    # O agendador do GitHub atrasa o coletor em 90-190 min, entao os horarios
+    # sao antecipados para que a coleta caia sempre ANTES do publicador.
+    # Tres passagens por dia: se a arte chegar tarde no Telegram, a passagem
+    # seguinte pega. Rodar varias vezes e seguro porque, sem conteudo novo,
+    # a fila atual e preservada.
+    - cron: '10 06 * * *'
+    - cron: '10 11 * * *'
+    - cron: '10 17 * * *'
   workflow_dispatch:
 jobs:
   run-coletor:
