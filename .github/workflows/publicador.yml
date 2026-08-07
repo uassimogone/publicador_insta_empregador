@@ -1,14 +1,14 @@
 name: 2 - Publicador
 on:
   schedule:
-    # Alvo 08:00 BRT. O agendador do GitHub atrasa 60-105 min, entao o cron
-    # e antecipado para compensar. Minutos "impopulares" (:17, :23) sofrem
-    # menos fila do que :00 e :45.
-    - cron: '17 09 * * *'
-    # Alvo 12:00 BRT
-    - cron: '17 13 * * *'
-    # Alvo 18:00 BRT
-    - cron: '23 19 * * *'
+    # NAO ANTECIPAR ESTES HORARIOS. O conteudo do dia so chega no Telegram
+    # por volta de 08:00-11:00 UTC, e a coleta precisa acontecer antes da
+    # publicacao. Antecipar o publicador faz ele rodar antes de existir
+    # conteudo, e o dia inteiro fica sem post. Estes valores rodam, na
+    # pratica, por volta de 09h30, 13h20 e 18h55 BRT.
+    - cron: '45 10 * * *'
+    - cron: '45 14 * * *'
+    - cron: '45 20 * * *'
   workflow_dispatch:
 jobs:
   run-publicador:

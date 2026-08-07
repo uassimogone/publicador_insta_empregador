@@ -1,13 +1,12 @@
 name: 1 - Coletor
 on:
   schedule:
-    # O agendador do GitHub atrasa o coletor em 90-190 min, entao os horarios
-    # sao antecipados para que a coleta caia sempre ANTES do publicador.
-    # Tres passagens por dia: se a arte chegar tarde no Telegram, a passagem
-    # seguinte pega. Rodar varias vezes e seguro porque, sem conteudo novo,
-    # a fila atual e preservada.
-    - cron: '10 06 * * *'
-    - cron: '10 11 * * *'
+    # A primeira passagem (08:50) e o horario historico, que roda antes do
+    # publicador das 10:45. As duas passagens extras cobrem atraso do bot na
+    # entrega da arte. Rodar varias vezes e seguro: sem conteudo novo, a fila
+    # atual e preservada.
+    - cron: '50 08 * * *'
+    - cron: '30 12 * * *'
     - cron: '10 17 * * *'
   workflow_dispatch:
 jobs:
