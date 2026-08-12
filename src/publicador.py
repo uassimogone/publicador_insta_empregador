@@ -43,17 +43,28 @@ def hospedar_imgbb(caminho_imagem):
 def publicar_meta(image_url, caption):
     print(" -> [Etapa 2] Iniciando injeção na Graph API da Meta...")
     base_url = "https://graph.instagram.com/v20.0"
-    
+
     # Criar Container (Correção de arquitetura: auth na URL, payload no Body)
-    resp = requests.post(
-        f"{base_url}/{IG_USER_ID}/media", 
-        params={"access_token": IG_TOKEN}, 
-        data={"image_url": image_url, "caption": caption},
-        timeout=30
-    )
-    res_json = resp.json()
-    container_id = res_json.get("id")
-    
+    # Retry: logo após o upload no ImgBB, a Meta às vezes tenta buscar a
+    # imagem antes dela propagar no CDN e recusa com "could not be fetched".
+    container_id = None
+    for tentativa in range(1, 4):
+        resp = requests.post(
+            f"{base_url}/{IG_USER_ID}/media",
+            params={"access_token": IG_TOKEN},
+            data={"image_url": image_url, "caption": caption},
+            timeout=30
+        )
+        res_json = resp.json()
+        container_id = res_json.get("id")
+
+        if container_id:
+            break
+
+        print(f" -> [Etapa 2] Tentativa {tentativa}/3 negada pela Meta: {res_json}")
+        if tentativa < 3:
+            time.sleep(10)
+
     if not container_id:
         raise Exception(f"Meta negou a criação do Container: {res_json}")
     
