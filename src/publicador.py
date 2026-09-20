@@ -6,6 +6,11 @@ import base64
 import traceback
 import requests
 from pathlib import Path
+from publication_policy import (
+    already_published_today,
+    first_unpublished,
+    mark_published_today,
+)
 
 # Credenciais
 IG_USER_ID = os.environ["INSTAGRAM_USER_ID"]
@@ -16,6 +21,7 @@ CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
 DB_DIR = Path("database")
 DATA_FILE = DB_DIR / "posts_do_dia.json"
+PUBLICATION_STATE_FILE = DB_DIR / "estado_publicador.json"
 
 def avisar_telegram(texto):
     try:
@@ -102,6 +108,10 @@ def publicar_meta(image_url, caption):
     print(" -> [Etapa 3 OK] Post publicado no feed!")
 
 def rodar_fila():
+    if already_published_today(PUBLICATION_STATE_FILE):
+        print("A publicação diária já foi concluída. As execuções de contingência serão ignoradas.")
+        return
+
     if not DATA_FILE.exists():
         print("Arquivo JSON não encontrado. O coletor rodou?")
         sys.exit(1)
@@ -109,10 +119,12 @@ def rodar_fila():
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         dados = json.load(f)
 
-    post_da_vez = next((p for p in dados["posts"] if not p["publicado"]), None)
+    # Nunca avança para o segundo item de uma fila antiga: somente o primeiro
+    # conteúdo encontrado no Telegram pode ser publicado.
+    post_da_vez = first_unpublished(dados.get("posts", []))
     
     if not post_da_vez:
-        print("Todos os posts de hoje já foram publicados!")
+        print("A primeira postagem do dia já foi publicada ou não há conteúdo disponível.")
         return
 
     print(f"Iniciando publicação do Post {post_da_vez['id']}...")
@@ -132,8 +144,10 @@ def rodar_fila():
         post_da_vez["publicado"] = True
         with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump(dados, f, ensure_ascii=False, indent=2)
-            
-        avisar_telegram(f"✅ Instagram Autônomo: Post {post_da_vez['id']}/3 publicado com sucesso!")
+
+        mark_published_today(PUBLICATION_STATE_FILE)
+
+        avisar_telegram(f"✅ Instagram Autônomo: conteúdo diário publicado com sucesso!")
         print(f"Post {post_da_vez['id']} finalizado com maestria.")
         
     except Exception as e:

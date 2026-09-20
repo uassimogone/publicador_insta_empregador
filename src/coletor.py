@@ -6,6 +6,7 @@ from pathlib import Path
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 from telethon.tl.types import MessageMediaPhoto
+from publication_policy import already_selected_today, first_only, publication_day
 
 # Pegando chaves do cofre
 API_ID = int(os.environ["TELEGRAM_API_ID"])
@@ -105,6 +106,15 @@ async def coletar_posts():
             texto = (m.text or "").strip()
             print(f"  msg {m.id}: midia={tipo}, texto={len(texto)} chars")
 
+        if already_selected_today(DATA_FILE):
+            # As execuções extras do coletor existem apenas como contingência.
+            # Depois que o primeiro conteúdo do dia foi escolhido, avançamos o
+            # marco do Telegram e ignoramos definitivamente os demais.
+            salvar_ultimo_id(maior_id_visto)
+            print("O primeiro conteúdo do dia já foi selecionado. "
+                  "As demais mensagens de hoje foram ignoradas.")
+            return
+
         for i, msg in enumerate(mensagens):
             if msg.id <= ultimo_processado:
                 continue
@@ -143,7 +153,9 @@ async def coletar_posts():
 
             pares.append({"msg_obj": msg, "legenda": legenda})
 
-        pares = pares[-3:]
+        # As mensagens estão em ordem cronológica. Mantemos somente a primeira
+        # opção enviada ao Telegram e descartamos as demais do mesmo lote.
+        pares = first_only(pares)
 
         fila_posts = []
         for index, par in enumerate(pares, 1):
@@ -174,7 +186,12 @@ async def coletar_posts():
             )
 
         with open(DATA_FILE, "w", encoding="utf-8") as f:
-            json.dump({"posts": fila_posts}, f, ensure_ascii=False, indent=2)
+            json.dump(
+                {"data_selecao": publication_day(), "posts": fila_posts},
+                f,
+                ensure_ascii=False,
+                indent=2,
+            )
 
         salvar_ultimo_id(maior_id_visto)
 
