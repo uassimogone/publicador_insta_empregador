@@ -5,7 +5,8 @@ on:
     # por volta de 08:00-11:00 UTC, e a coleta precisa acontecer antes da
     # publicacao. Antecipar o publicador faz ele rodar antes de existir
     # conteudo, e o dia inteiro fica sem post. Estes valores rodam, na
-    # pratica, por volta de 09h30, 13h20 e 18h55 BRT.
+    # pratica, por volta de 09h30, 13h20 e 18h55 BRT. Depois da primeira
+    # publicação bem-sucedida, a trava diária encerra as demais passagens.
     - cron: '45 10 * * *'
     - cron: '45 14 * * *'
     - cron: '45 20 * * *'
