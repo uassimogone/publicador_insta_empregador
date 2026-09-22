@@ -1,13 +1,6 @@
 name: 1 - Coletor
 on:
-  schedule:
-    # A primeira passagem (08:50) e o horario historico, que roda antes do
-    # publicador das 10:45. As duas passagens extras cobrem atraso do bot na
-    # entrega da arte. Rodar varias vezes e seguro: sem conteudo novo, a fila
-    # atual e preservada.
-    - cron: '50 08 * * *'
-    - cron: '30 12 * * *'
-    - cron: '10 17 * * *'
+  # Pausado temporariamente: execução apenas manual.
   workflow_dispatch:
 jobs:
   run-coletor:
